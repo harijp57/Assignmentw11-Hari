@@ -1,0 +1,36 @@
+flowchart LR
+    %% Stock
+    B((Buffer))
+
+    %% Flows
+    PA[[Production A]] --> B
+    B --> CB[[Consumption B]]
+
+    %% Parameters
+    P1[Base Production A]
+    P2[Base Consumption B]
+    P3[Max Buffer]
+    P4[Min Buffer]
+    A1[Adjustment A]
+    A2[Adjustment B]
+
+    %% Feedback - logika aliran berdasarkan kondisi buffer
+    B --> C1{Buffer >= Max Buffer?}
+    C1 -->|Ya| FA[Production A = Base * Adjustment A]
+    C1 -->|Tidak| FP[Production A = Base]
+
+    B --> C2{Buffer <= Min Buffer?}
+    C2 -->|Ya| FB[Consumption B = Base * Adjustment B]
+    C2 -->|Tidak| FC[Consumption B = Base]
+
+    %% Keterkaitan parameter
+    P1 --> PA
+    FA --> PA
+    FP --> PA
+
+    P2 --> CB
+    FB --> CB
+    FC --> CB
+
+    A1 --> FA
+    A2 --> FB
